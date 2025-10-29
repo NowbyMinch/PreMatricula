@@ -36,17 +36,6 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
         <source src="/file.mov" type="video/mp4" />
         </video>
 
-
-      <div className="fixed top-0 left-0 w-full h-full bg-black opacity-55 z-[-5] "></div>
-
-        <Account />
-
-        <div className="my-auto py-2 h-full flex justify-center items-center w-full overflow-y-auto">
-          {children}
-        </div>
-      
-
-
       <div className="fixed top-0 left-0 w-full h-full bg-black opacity-55 z-[-5] "></div>
 
         <Account />
