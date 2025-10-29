@@ -101,7 +101,7 @@ export default function Home() {
                 initial={{scale:0}}
                 animate={{scale:1}}
                 exit={{scale:0}}
-                className="mb-4 ">Coloque a sua conta para poder realizar a pré matricula</motion.p>
+                className="mb-4 ">Coloque a sua conta para poder realizar a pré-matrícula</motion.p>
 
                 { registrar ?
                 <>
