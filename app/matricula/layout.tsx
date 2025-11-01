@@ -50,7 +50,7 @@ export default function RootLayout({children,}: { children: React.ReactNode;}) {
     },[id, pathname])
 
   return (
-    <main className="w-screen  flex justify-center items-center overflow-hidden relative py-4 ">
+    <main className="w-screen  flex justify-center items-center  relative py-4 ">
       {children}
     
     </main>

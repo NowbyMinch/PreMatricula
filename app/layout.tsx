@@ -40,7 +40,7 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
 
         <Account />
 
-        <div className="my-auto py-2 h-full flex justify-center items-center w-full overflow-y-auto">
+        <div className="my-auto py-2 h-full flex justify-center items-center w-full">
           {children}
         </div>
       
