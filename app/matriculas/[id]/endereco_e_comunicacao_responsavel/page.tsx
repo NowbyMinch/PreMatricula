@@ -148,66 +148,12 @@ export default function Home() {
       ...prev,
       sEmail: dados ? dados?.responsaveis[1]?.email : "",
     }));
-
-    //  setUpdate2(prev => ({...prev, sNome: dados ? dados?.responsaveis[1]?.nome : "" }));
   }, [dados]);
 
   useEffect(() => {
     console.log(update, "update");
     console.log(update2, "update2");
   }, [update, update2]);
-
-  //  const handleUpdate = async () => {
-  //    const tok = await fetch("/api/token", { credentials: "include" });
-  //    const data = await tok.json();
-  //    if (!data.token) return
-  //    const token = data.token;
-
-  //    const AlunoSponteID = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/integracoes/sponte/matriculas/sponte-id?id=${id}`, {method: 'GET', headers: {'Content-Type': 'application/json', Authorization: `Bearer ${token}`, } });
-  //    const Alunoid = await AlunoSponteID.json();
-
-  //    const ResponsavelSponteID = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/integracoes/sponte/alunos/responsaveis?id=${Alunoid.sponteAlunoId}`, {method: 'GET', headers: {'Content-Type': 'application/json', Authorization: `Bearer ${token}`, } });
-  //    const Responsavelid = await ResponsavelSponteID.json();
-
-  //    console.log(Responsavelid?.responsavelIds[0]);
-  //    setUpdate(prev => ({...prev, nResponsavelID: Responsavelid?.responsavelIds[0] }));
-  //    setUpdate2(prev => ({...prev, nResponsavelID: Responsavelid?.responsavelIds[1] }));
-
-  //    const updatedResponsavel1: responsavelUpdate = {
-  //     ...update,
-  //     nResponsavelID: Responsavelid?.responsavelIds[0],
-  //    };
-
-  //    const updatedResponsavel2: responsavelUpdate = {
-  //     ...update2,
-  //     nResponsavelID: Responsavelid?.responsavelIds[1],
-  //    };
-
-  //    console.log(updatedResponsavel1, "updatedResponsavel1 ---")
-  //    console.log(updatedResponsavel2, "updatedResponsavel2 ---")
-
-  //   //  const Turma = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/integracoes/sponte/responsaveis/update`, {
-  //   //    method: 'POST',
-  //   //    headers: {
-  //   //      'Content-Type': 'application/json',
-  //   //      Authorization: `Bearer ${token}`, },
-  //   //    body: JSON.stringify(updatedResponsavel),
-  //   //  });
-
-  //   //  const turmaRes= await Turma.text();
-  //   //  const wrapped = `<?xml version="1.0" encoding="UTF-8"?><root>${turmaRes}</root>`;
-
-  //   //  const parser = new DOMParser();
-  //   //  const xmlDoc = parser.parseFromString(wrapped, "application/xml");
-
-  //   //  // Get all <RetornoOperacao> elements
-  //   //  const retornoElements = Array.from(xmlDoc.getElementsByTagName("RetornoOperacao"));
-
-  //   //  const retornoOperacaoValues = retornoElements.map(el => el.textContent);
-
-  //   //  console.log(retornoOperacaoValues);
-
-  //  };
 
   if (loading)
     return (
@@ -225,325 +171,328 @@ export default function Home() {
             {dados?.responsaveis.map((responsavel, index) => {
               return (
                 <React.Fragment key={index}>
-                  {index === 0 ? (
+                  {responsavel.endereco.cidade !== "PENDENTE" && (
                     <motion.h1
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       exit={{ scale: 0 }}
-                      className="text-[30px] origin-left"
+                      className={`${
+                        index === 1 && "mt-5"
+                      } text-[30px] origin-left`}
                     >
-                      Responsável Financeiro
-                    </motion.h1>
-                  ) : (
-                    <motion.h1
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="text-[30px] origin-left mt-5"
-                    >
-                      Segundo Responsável
+                      {index === 0
+                        ? "Responsável Financeiro"
+                        : "Segundo Responsável"}
                     </motion.h1>
                   )}
 
-                  <motion.h1
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="text-[25px] origin-left"
-                  >
-                    Endereço
-                  </motion.h1>
+                  {responsavel.endereco.cidade !== "PENDENTE" && (
+                    <>
+                      <motion.h1
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        className="text-[25px] origin-left"
+                      >
+                        Endereço
+                      </motion.h1>
 
-                  {/* Endereço do primeiro responsável */}
-                  <div className="w-full max-w-full flex md:flex-row flex-col gap-4">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">
-                        C.E.P.
-                      </motion.label>
-                      <motion.input
-                        type="text"
-                        disabled
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sCEP: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.sCEP,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sCEP: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.sCEP,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
+                      {/* Endereço do primeiro responsável */}
+                      <div className="w-full max-w-full flex md:flex-row flex-col gap-4">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            C.E.P.
+                          </motion.label>
+                          <motion.input
+                            type="text"
+                            disabled
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sCEP: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.sCEP,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sCEP: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.sCEP,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
 
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">
-                        Rua/Avenida
-                      </motion.label>
-                      <motion.input
-                        type="text"
-                        disabled
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sEndereco: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.sEndereco,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sEndereco: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.sEndereco,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            Rua/Avenida
+                          </motion.label>
+                          <motion.input
+                            type="text"
+                            disabled
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sEndereco: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.sEndereco,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sEndereco: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.sEndereco,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
 
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">N°</motion.label>
-                      <motion.input
-                        type="text"
-                        disabled
-                        maxLength={3}
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  nNumeroEndereco: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.nNumeroEndereco,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  nNumeroEndereco: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.nNumeroEndereco,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
-                  </div>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            N°
+                          </motion.label>
+                          <motion.input
+                            type="text"
+                            disabled
+                            maxLength={3}
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      nNumeroEndereco: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.nNumeroEndereco,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      nNumeroEndereco: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.nNumeroEndereco,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
+                      </div>
 
-                  <div className="w-full max-w-full flex gap-4 md:flex-row flex-col">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">
-                        Cidade
-                      </motion.label>
-                      <motion.input
-                        type="text"
-                        disabled
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sCidade: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.sCidade,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sCidade: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.sCidade,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
+                      <div className="w-full max-w-full flex gap-4 md:flex-row flex-col">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            Cidade
+                          </motion.label>
+                          <motion.input
+                            type="text"
+                            disabled
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sCidade: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.sCidade,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sCidade: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.sCidade,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
 
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">
-                        Bairro
-                      </motion.label>
-                      <motion.input
-                        type="text"
-                        disabled
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sBairro: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.sBairro,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sBairro: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.sBairro,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            Bairro
+                          </motion.label>
+                          <motion.input
+                            type="text"
+                            disabled
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sBairro: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.sBairro,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sBairro: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.sBairro,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
 
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">
-                        Complemento
-                      </motion.label>
-                      <motion.input
-                        type="text"
-                        disabled
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sComplementoEndereco: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.sComplementoEndereco,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sComplementoEndereco: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.sComplementoEndereco,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
-                  </div>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            Complemento
+                          </motion.label>
+                          <motion.input
+                            type="text"
+                            disabled
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sComplementoEndereco: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.sComplementoEndereco,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sComplementoEndereco: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.sComplementoEndereco,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
+                      </div>
 
-                  <motion.h1
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="text-[25px] origin-left"
-                  >
-                    Comunicação
-                  </motion.h1>
+                      <motion.h1
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        className="text-[25px] origin-left"
+                      >
+                        Comunicação
+                      </motion.h1>
 
-                  <div className="w-full max-w-full flex gap-4 md:flex-row flex-col">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">
-                        Celular
-                      </motion.label>
-                      <CelularVariation
-                        disabled={true}
-                        {...(index === 0
-                          ? {
-                              onChange: (value) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sCelular: value,
-                                }));
-                              },
-                              value: dados?.responsaveis[0].celular,
-                            }
-                          : {
-                              onChange: (value) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sCelular: value,
-                                }));
-                              },
-                              value: dados?.responsaveis[1].celular,
-                            })}
-                      />
-                    </motion.div>
+                      <div className="w-full max-w-full flex gap-4 md:flex-row flex-col">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            Celular
+                          </motion.label>
+                          <CelularVariation
+                            disabled={true}
+                            {...(index === 0
+                              ? {
+                                  onChange: (value) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sCelular: value,
+                                    }));
+                                  },
+                                  value: dados?.responsaveis[0].celular,
+                                }
+                              : {
+                                  onChange: (value) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sCelular: value,
+                                    }));
+                                  },
+                                  value: dados?.responsaveis[1].celular,
+                                })}
+                          />
+                        </motion.div>
 
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="flex flex-col gap-2 w-full"
-                    >
-                      <motion.label className="origin-left">Email</motion.label>
-                      <motion.input
-                        type="email"
-                        disabled
-                        {...(index === 0
-                          ? {
-                              onChange: (e) => {
-                                setUpdate((prev) => ({
-                                  ...prev,
-                                  sEmail: e.target.value,
-                                }));
-                              },
-                              defaultValue: update.sEmail,
-                            }
-                          : {
-                              onChange: (e) => {
-                                setUpdate2((prev) => ({
-                                  ...prev,
-                                  sEmail: e.target.value,
-                                }));
-                              },
-                              defaultValue: update2.sEmail,
-                            })}
-                        className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
-                      />
-                    </motion.div>
-                  </div>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          className="flex flex-col gap-2 w-full"
+                        >
+                          <motion.label className="origin-left">
+                            Email
+                          </motion.label>
+                          <motion.input
+                            type="email"
+                            disabled
+                            {...(index === 0
+                              ? {
+                                  onChange: (e) => {
+                                    setUpdate((prev) => ({
+                                      ...prev,
+                                      sEmail: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update.sEmail,
+                                }
+                              : {
+                                  onChange: (e) => {
+                                    setUpdate2((prev) => ({
+                                      ...prev,
+                                      sEmail: e.target.value,
+                                    }));
+                                  },
+                                  defaultValue: update2.sEmail,
+                                })}
+                            className="w-full rounded-[15px] px-4 py-3 border outline-none transition-all ease-in-out duration-300 border-gray-400 max-w-[480px] focus:border-yellow-400 focus:shadow-[0_0_15px_rgba(255,215,0,0.2)]"
+                          />
+                        </motion.div>
+                      </div>
+                    </>
+                  )}
                 </React.Fragment>
               );
             })}
