@@ -75,7 +75,6 @@ export default function Home() {
       );
       const dataRes = await res.json();
 
-      console.log(dataRes);
       setDados(dataRes);
       setLoading(false);
     };
@@ -151,7 +150,7 @@ export default function Home() {
         ? dados?.responsaveis[1]?.endereco.complemento
         : "",
     }));
-     setUpdate2((prev) => ({
+    setUpdate2((prev) => ({
       ...prev,
       sCelular: dados ? dados?.responsaveis[1]?.celular : "",
     }));
@@ -160,11 +159,6 @@ export default function Home() {
       sEmail: dados ? dados?.responsaveis[1]?.email : "",
     }));
   }, [dados]);
-
-  useEffect(() => {
-    console.log(update, "update");
-    console.log(update2, "update2");
-  }, [update, update2]);
 
   if (loading)
     return (

@@ -47,7 +47,6 @@ export function DatePicker({ onChangePreset, onChange }: DatePickerProps) {
         return;
       }
       const token = data.token;
-      console.log(token);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/matriculas/recente`,
@@ -83,78 +82,64 @@ export function DatePicker({ onChangePreset, onChange }: DatePickerProps) {
         }
       );
       const preset = await PresetFetch.json();
-        const etapas = [
-          { value: 1, label: "1", pagina: "dados_do_responsavel_financeiro" },
-          {
-            value: 2,
-            label: "2",
-            pagina: "endereco_e_comunicacao_responsavel_financeiro",
-          },
-          { value: 3, label: "1b", pagina: "dados_do_responsavel" },
-          {
-            value: 4,
-            label: "2b",
-            pagina: "endereco_e_comunicacao_responsavel",
-          },
-          { value: 5, label: "3", pagina: "dados_do_aluno" },
-          { value: 6, label: "3b", pagina: "endereco_e_comunicacao_aluno" },
-        ];
+      const etapas = [
+        { value: 1, label: "1", pagina: "dados_do_responsavel_financeiro" },
+        {
+          value: 2,
+          label: "2",
+          pagina: "endereco_e_comunicacao_responsavel_financeiro",
+        },
+        { value: 3, label: "1b", pagina: "dados_do_responsavel" },
+        {
+          value: 4,
+          label: "2b",
+          pagina: "endereco_e_comunicacao_responsavel",
+        },
+        { value: 5, label: "3", pagina: "dados_do_aluno" },
+        { value: 6, label: "3b", pagina: "endereco_e_comunicacao_aluno" },
+      ];
 
-        const AtualValor = etapas.filter(
-          (item) =>
-            item.pagina === pathname.split("/")[pathname.split("/").length - 1]
-        )[0].value;
-        const etapaEncontrada = etapas.find(
-          (item) => item.label === preset.etapaAtualLabel
-        );
+      const AtualValor = etapas.filter(
+        (item) =>
+          item.pagina === pathname.split("/")[pathname.split("/").length - 1]
+      )[0].value;
+      const etapaEncontrada = etapas.find(
+        (item) => item.label === preset.etapaAtualLabel
+      );
 
-        const PresetValor = etapaEncontrada ? etapaEncontrada.value : 0;
+      const PresetValor = etapaEncontrada ? etapaEncontrada.value : 0;
 
-        if (!preset.completo && PresetValor > AtualValor) {
-          if (pathname.endsWith("dados_do_responsavel_financeiro")) {
-            console.log("Termina 1");
-            const v = preset.responsavelPrincipal.dataNascimento
-              .split("/")
-              .reverse()
-              .join("-");
-            const vI = preset.responsavelPrincipal.dataNascimento.split("/");
-            setInputValue(vI[0]);
-            setInputValue2(vI[1]);
-            setInputValue3(vI[2]);
-            onChangePreset?.(v);
-          }
-          else if (pathname.endsWith("dados_do_responsavel"))
-          {
-            console.log("Termina 2");
+      if (!preset.completo && PresetValor > AtualValor) {
+        if (pathname.endsWith("dados_do_responsavel_financeiro")) {
+          const v = preset.responsavelPrincipal.dataNascimento
+            .split("/")
+            .reverse()
+            .join("-");
+          const vI = preset.responsavelPrincipal.dataNascimento.split("/");
+          setInputValue(vI[0]);
+          setInputValue2(vI[1]);
+          setInputValue3(vI[2]);
+          onChangePreset?.(v);
+        } else if (pathname.endsWith("dados_do_responsavel")) {
+          const v = preset.segundoResponsavel.dataNascimento
+            .split("/")
+            .reverse()
+            .join("-");
+          const vI = preset.segundoResponsavel.dataNascimento.split("/");
+          setInputValue(vI[0]);
+          setInputValue2(vI[1]);
+          setInputValue3(vI[2]);
+          onChangePreset?.(v);
+        } else if (pathname.endsWith("dados_do_aluno")) {
+          const v = preset.aluno.dataNascimento.split("/").reverse().join("-");
 
-            const v = preset.segundoResponsavel.dataNascimento
-              .split("/")
-              .reverse()
-              .join("-");
-            const vI = preset.segundoResponsavel.dataNascimento.split("/");
-            setInputValue(vI[0]);
-            setInputValue2(vI[1]);
-            setInputValue3(vI[2]);
-            onChangePreset?.(v);
-          }
-          else if (pathname.endsWith("dados_do_aluno"))
-          {
-            console.log("Termina 3");
-            
-            const v = preset.aluno.dataNascimento
-              .split("/")
-              .reverse()
-              .join("-");
-            
-            const vI = preset.aluno.dataNascimento.split("/");
-            setInputValue(vI[0]);
-            setInputValue2(vI[1]);
-            setInputValue3(vI[2]);
-            onChangePreset?.(v);
-          }
+          const vI = preset.aluno.dataNascimento.split("/");
+          setInputValue(vI[0]);
+          setInputValue2(vI[1]);
+          setInputValue3(vI[2]);
+          onChangePreset?.(v);
         }
-
-      console.log(dataRes);
+      }
     };
     fetchToken();
   }, [onChangePreset, pathname]);
@@ -188,7 +173,6 @@ export function DatePicker({ onChangePreset, onChange }: DatePickerProps) {
       inputValue2 === "10" ||
       inputValue2 === "12"
     ) {
-      console.log(inputValue2);
       if (parseInt(inputValue) > 31) {
         setInputValue("31");
       }
@@ -198,14 +182,10 @@ export function DatePicker({ onChangePreset, onChange }: DatePickerProps) {
       inputValue2 === "9" ||
       inputValue2 === "11"
     ) {
-      console.log(inputValue2);
-
       if (parseInt(inputValue) > 30) {
         setInputValue("30");
       }
     } else if (inputValue2 === "2") {
-      console.log(inputValue2);
-
       if (parseInt(inputValue) > 28) {
         setInputValue("28");
       }
@@ -258,7 +238,6 @@ export function DatePicker({ onChangePreset, onChange }: DatePickerProps) {
 
   const handleDateSelect = (date: Date) => {
     if (date.getFullYear() < 1900 || date.getFullYear() > currentYear) return;
-    // console.log(date);
     const formatted = format(date, "dd/MM/yyyy");
     setSelectedDate(date);
     setInputValue(formatted.slice(0, 2));
