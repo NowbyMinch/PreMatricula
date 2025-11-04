@@ -97,9 +97,11 @@ export default function Home() {
           (item) =>
             item.pagina === pathname.split("/")[pathname.split("/").length - 1]
         )[0].value;
-        const PresetValor = etapas.filter(
+        const etapaEncontrada = etapas.find(
           (item) => item.label === preset.etapaAtualLabel
-        )[0].value;
+        );
+
+        const PresetValor = etapaEncontrada ? etapaEncontrada.value : 0;
 
         if (!preset.completo && PresetValor > AtualValor) {
           console.log(preset.completo);
@@ -109,14 +111,14 @@ export default function Home() {
           setCPF(preset.responsavelPrincipal.cpf);
           setCidadeNatal(preset.aluno.cidadeNatal);
         }
+
         if (dataRes?.message === "Unauthorized") {
           setMessage("Erro na matricula. Por favor, logue novamente.");
         }
         console.log(dataRes);
       };
       fetchToken();
-    } catch {
-    } 
+    } catch {}
   }, [pathname]);
 
   useEffect(() => {
