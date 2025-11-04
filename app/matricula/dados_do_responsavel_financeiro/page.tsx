@@ -164,7 +164,7 @@ export default function Home() {
       if (
         dataRes?.error &&
         Array.isArray(dataRes?.message) &&
-        dataRes?.message.length > 0 
+        dataRes?.message.length > 0
       ) {
         // dataRes.error exists and is a non-empty array
         let errors = "";
@@ -384,10 +384,10 @@ export default function Home() {
                             <motion.label htmlFor="" className="origin-left">
                               N°
                             </motion.label>
-                            <NumeroRG
+                            <input
                               value={rg}
-                              onChange={(value) => {
-                                setRG(value);
+                              onChange={(e) => {
+                                setRG(e.target.value);
                               }}
                               disabled={false}
                             />
