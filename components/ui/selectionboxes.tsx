@@ -872,23 +872,20 @@ export function Dados({ value, onChange }: ComboboxDemoProps) {
   ); // <- empty array: only created once
 
   useEffect(() => {
+    if (!value) {
+      const currentPage = pathname.split("/")[3];
+      const defaultOption =
+        Dados.find((item) => item.value === currentPage)?.value ||
+        "dados_do_responsavel";
+
+      onChange(defaultOption);
+    }
+  }, []); // roda só uma vez
+
+  useEffect(() => {
     const atualDado = Dados.filter(
       (item) => item.value === pathname.split("/")[3]
     )[0].label;
-
-    
-  useEffect(() => {
-    // Example: set value based on the current pathname
-    const currentPage = pathname.split("/")[3];
-    const defaultOption = Dados.find((item) => item.value === currentPage);
-
-    if (defaultOption) {
-      onChange(defaultOption.value); // set value automatically
-    } else {
-      // or set a fallback
-      onChange("dados_do_responsavel");
-    }
-  }, [pathname, Dados, onChange]);
 
     setAtual(atualDado);
     const fetchToken = async () => {
