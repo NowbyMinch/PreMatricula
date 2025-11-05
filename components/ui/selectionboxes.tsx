@@ -414,17 +414,17 @@ export function Localidade({ disabled, onChange }: LocalidadeProps) {
         if (!data.token) return;
         const token = data.token;
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/matriculas/recente`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const dataRes = await res.json();
+        // const res = await fetch(
+        //   `${process.env.NEXT_PUBLIC_API_URL}/matriculas/recente`,
+        //   {
+        //     method: "GET",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
+        // const dataRes = await res.json();
 
         const idAtualRes = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/matriculas/atual-id`,
@@ -855,19 +855,6 @@ export function Dados({ value, onChange }: ComboboxDemoProps) {
   const [atual, setAtual] = useState("");
   const [dadosAtivos, setDadosAtivos] = useState<number>();
 
-  useEffect(() => {
-    // Example: set value based on the current pathname
-    const currentPage = pathname.split("/")[3];
-    const defaultOption = Dados.find((item) => item.value === currentPage);
-
-    if (defaultOption) {
-      onChange(defaultOption.value); // set value automatically
-    } else {
-      // or set a fallback
-      onChange("dados_do_responsavel");
-    }
-  }, [pathname]);
-
   const Dados = useMemo(
     () => [
       { value: "dados_do_responsavel", label: "Dados do responsável" },
@@ -888,6 +875,20 @@ export function Dados({ value, onChange }: ComboboxDemoProps) {
     const atualDado = Dados.filter(
       (item) => item.value === pathname.split("/")[3]
     )[0].label;
+
+    
+  useEffect(() => {
+    // Example: set value based on the current pathname
+    const currentPage = pathname.split("/")[3];
+    const defaultOption = Dados.find((item) => item.value === currentPage);
+
+    if (defaultOption) {
+      onChange(defaultOption.value); // set value automatically
+    } else {
+      // or set a fallback
+      onChange("dados_do_responsavel");
+    }
+  }, [pathname, Dados, onChange]);
 
     setAtual(atualDado);
     const fetchToken = async () => {
@@ -944,7 +945,7 @@ export function Dados({ value, onChange }: ComboboxDemoProps) {
       }
     };
     fetchToken();
-  }, [pathname]); // now Dados is stable, effect runs only when id changes
+  }, [pathname, Dados]); // now Dados is stable, effect runs only when id changes
 
   return (
     <>
@@ -1184,7 +1185,7 @@ export function Numero({
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let v = e.target.value.replace(/\D/g, ""); // remove non-digits
+    const v = e.target.value.replace(/\D/g, ""); // remove non-digits
     // if (v.length > 3) v = v.slice(0, 3); // limit to 3 digits
     setNumero(v);
     onChange?.(v);
