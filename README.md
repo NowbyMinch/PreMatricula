@@ -1,6 +1,6 @@
 # 📘 Projeto de Rematrícula
 
-Sistema de **rematrícula online** desenvolvido em **Wix Velo** com integração ao **SPONTE**.  
+O Sistema de Pré-Matrícula Escolar foi desenvolvido para o Colégio Seice, com o objetivo de otimizar o processo de inscrição de novos alunos e automatizar a integração de dados com a plataforma Sponte.
 O objetivo é otimizar o processo de cadastro e rematrícula de alunos e responsáveis, garantindo praticidade, segurança e consistência de dados.
 
 ---
