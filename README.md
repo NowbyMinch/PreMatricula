@@ -31,10 +31,6 @@ O objetivo é otimizar o processo de cadastro e rematrícula de alunos e respons
 
 ## 🛠️ Tecnologias Utilizadas
 
-- Wix Velo (Back-end e Front-end)
-
-- Banco de dados local Wix
-
 🔹 Front-end (Arquitetura Moderna)
 
 - Next.js (App Router)
